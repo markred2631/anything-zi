@@ -4,6 +4,7 @@ import { SidebarOption } from "./components/sidebar/Sidebar.types";
 import { GlobalAppContextProvider } from "./components/context/GlobalAppContext";
 import { Sidebar } from "./components/sidebar/Sidebar";
 import { fetchSources } from "./components/fetchers";
+import { Footer } from "./components/footer/Footer";
 
 export default async function Home() {
   const sources: SidebarOption[] = await fetchSources();
@@ -35,9 +36,7 @@ export default async function Home() {
 
           <SearchView />
         </main>
-        <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-          <p className="uppercase text-sm tracking-wide">Made with ❤️ for you</p>
-        </footer>
+        <Footer />
       </div>
     </div>
     </GlobalAppContextProvider>

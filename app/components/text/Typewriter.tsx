@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect, useRef } from 'react';
 
 // Tailwind CSS is assumed to be available in the project.
