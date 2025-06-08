@@ -1,6 +1,6 @@
 interface ResultState {
   loading: boolean;
-  data: Island | null;
+  data: ResultsGroup | null;
   error: string | null;
 }
 

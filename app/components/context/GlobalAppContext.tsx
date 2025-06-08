@@ -1,8 +1,10 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useCallback, useMemo, useEffect } from 'react';
 import { GlobalAppContextType } from './GlobalAppContext.types';
 import { SidebarOption } from '../sidebar/Sidebar.types';
+import { RecentSearch } from '../search/SearchBar.types';
+import { localStorageKey } from '../utills';
 
 const GlobalAppContext = createContext<GlobalAppContextType | undefined>(undefined);
 
@@ -36,6 +38,8 @@ export const GlobalAppContextProvider: React.FC<GlobalAppContextProviderProps> =
   );
 };
 
+// --- Hooks ---
+
 export const useGlobalAppContext = (): GlobalAppContextType => {
   const context = useContext(GlobalAppContext);
   if (!context) {
@@ -56,3 +60,30 @@ export const useActiveSources = (): SidebarOption[] => {
     [sources]
   );
 };
+
+export function useRecentSearches() {
+  const LOCAL_STORAGE_KEY = localStorageKey('recentSearches');
+
+  const [recentSearches, setRecentSearches] = useState<RecentSearch[]>(() => {
+    // Read from localStorage on first render (lazy initializer)
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (stored) {
+        try {
+          return JSON.parse(stored) as RecentSearch[];
+        } catch {
+          console.warn('Failed to parse recent searches from localStorage');
+        }
+      }
+    }
+    // Fallback default
+    return [];
+  });
+
+  // Sync to localStorage on updates
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recentSearches));
+  }, [recentSearches]);
+
+  return { recentSearches, setRecentSearches };
+}

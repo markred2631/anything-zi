@@ -3,7 +3,7 @@ import SearchView from "./components/search/SearchView";
 import { SidebarOption } from "./components/sidebar/Sidebar.types";
 import { GlobalAppContextProvider } from "./components/context/GlobalAppContext";
 import { Sidebar } from "./components/sidebar/Sidebar";
-import { fetchSources } from "./components/utills";
+import { fetchSources } from "./components/fetchers";
 
 export default async function Home() {
   const sources: SidebarOption[] = await fetchSources();

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from './SearchBar';
 import IslandView from './IslandView';
-import { useActiveSources, useGlobalAppContext } from '../context/GlobalAppContext';
-import { fetchSearch } from '../utills';
+import { useActiveSources } from '../context/GlobalAppContext';
+import { fetchSearch } from '../fetchers';
 
 // Custom CSS for animations
 const customStyles = `

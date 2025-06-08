@@ -5,9 +5,10 @@ interface ResultItem {
   description: string;
   date: string;
   details?: string;
+  url?: string;
 }
 
-interface Island {
+interface ResultsGroup {
   id: string;
   title: string;
   results: ResultItem[];

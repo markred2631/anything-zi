@@ -35,19 +35,19 @@ const ResultCard: React.FC<{ item: ResultItem, onItemSelect: (itemId: string) =>
   </div>
 );
 
-// A single island (group of results)
+// A single results group (group of results)
 const IslandView: React.FC<{ id: string, result: ResultState, onItemSelect: (itemId: string) => void, selectedItemId: string | null }> = ({ id, result, onItemSelect, selectedItemId }) => {
   const sources = useActiveSources();
   
-  const island = result.data;
+  const resultsGroup = result.data;
   const doesShow = sources.some(item => item.name === id)
 
-  if (island) {
+  if (resultsGroup) {
     return (
       <div className={`mb-8 ${doesShow ? '' : 'hidden'}`}>
-        <h2 className="text-lg font-bold text-gray-700 mb-4 px-2">{island.title}</h2>
+        <h2 className="text-lg font-bold text-gray-700 mb-4 px-2">{resultsGroup.title}</h2>
         <div className="bg-white rounded-3xl shadow-sm overflow-hidden divide-y divide-gray-200">
-          {island.results.map((item) => (
+          {resultsGroup.results.map((item) => (
             <ResultCard key={item.id} item={item} onItemSelect={onItemSelect} selectedItemId={selectedItemId} />
           ))}
         </div>

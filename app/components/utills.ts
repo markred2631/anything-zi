@@ -99,18 +99,8 @@ export const randomDelay = (minMs: number, maxMs: number) => {
   return new Promise<void>(resolve => setTimeout(resolve, randomMs));
 };
 
-// --- Fetches ---
+// --- Local storage ---
 
-export async function fetchSources(): Promise<SidebarOption[]> {
-  // TODO api call OR replace url
-  const response = await fetch("http://127.0.0.1:3000/api/sidebar");
-  const data = await response.json();
-  return data;
-}
-
-export async function fetchSearch(source: string, searchInput: string): Promise<Island> {
-  // TODO api call OR replace url
-  const response = await fetch(`http://127.0.0.1:3000/api/search/${source}?search=${searchInput}`);
-  const data = await response.json();
-  return data;
+export const localStorageKey = (key: string) => {
+  return `LITITLESS_${key.toUpperCase()}`
 }

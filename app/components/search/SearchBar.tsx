@@ -1,21 +1,24 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from 'react';
-import { RecentSearch, SearchBarProps } from './SearchBar.types';
+import { SearchBarProps } from './SearchBar.types';
 import { generateAvatarUrl, getFirstNChars, stringToColor } from '../utills';
 import { Search } from 'lucide-react';
 import Placeholder from '../Placeholder';
+import { useRecentSearches } from '../context/GlobalAppContext';
 
 
 export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
   // --- State Management with TypeScript ---
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([
-    { id: crypto.randomUUID(), title: 'lofi chill', type: 'Spotify', imageUrl: 'https://placehold.co/60x60/2dd4bf/ffffff?text=LC' },
-    { id: crypto.randomUUID(), title: 'focus music', type: 'Playlist', imageUrl: 'https://placehold.co/60x60/f97316/ffffff?text=FM' },
-    { id: crypto.randomUUID(), title: 'daily mix 1', type: 'Playlist', imageUrl: 'https://placehold.co/60x60/8b5cf6/ffffff?text=DM' },
-  ]);
+  const { recentSearches, setRecentSearches } = useRecentSearches();
+
+  [
+    { id: crypto.randomUUID(), title: 'lofi chill', type: 'Spotify' },
+    { id: crypto.randomUUID(), title: 'focus music', type: 'Playlist' },
+    { id: crypto.randomUUID(), title: 'daily mix 1', type: 'Playlist' },
+  ]
 
   // --- Refs ---
   const searchContainerRef = useRef<HTMLDivElement>(null);
