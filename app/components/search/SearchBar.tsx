@@ -2,23 +2,19 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { SearchBarProps } from './SearchBar.types';
-import { generateAvatarUrl, getFirstNChars, stringToColor } from '../utills';
-import { Search } from 'lucide-react';
+import { allBackgrounds, generateAvatarUrl, getFirstNChars, stringToColor } from '../utills';
+import { RotateCw, Search } from 'lucide-react';
 import Placeholder from '../Placeholder';
 import { useRecentSearches } from '../context/GlobalAppContext';
 
 
 export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
-  // --- State Management with TypeScript ---
+  // State for the current background index
+  const [backgroundIndex, setBackgroundIndex] = useState(0);
+
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { recentSearches, setRecentSearches } = useRecentSearches();
-
-  [
-    { id: crypto.randomUUID(), title: 'lofi chill', type: 'Spotify' },
-    { id: crypto.randomUUID(), title: 'focus music', type: 'Playlist' },
-    { id: crypto.randomUUID(), title: 'daily mix 1', type: 'Playlist' },
-  ]
 
   // --- Refs ---
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -42,7 +38,7 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
       {
         id: crypto.randomUUID(),
         title: value,
-        type: 'Netflix', // TODO change
+        type: 'Today', // TODO change
         imageUrl: generateAvatarUrl(value),
       },
     ];
@@ -82,6 +78,12 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
     } else {
       // Show recent searches again as user types
       setIsFocused(true);
+    }
+  };
+
+  const handleSubmitClick = (): void => {
+    if (inputRef.current) {
+      handleSearch(inputRef.current.value);
     }
   };
 
@@ -142,13 +144,21 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
     };
   }, []); // The empty dependency array means this effect runs only once when the component mounts.
 
+  // Function to cycle to the next background
+  const handleChangeBackground = () => {
+    setBackgroundIndex((prevIndex) => (prevIndex + 1) % allBackgrounds.length);
+  };
+
   // Derived state
   const showRecents: boolean = isFocused && recentSearches.length > 0;
+
+  // Get the current background object based on the index
+  const currentBackground = allBackgrounds[backgroundIndex];
 
   return (
     <div className="sticky top-20 flex flex-col items-center" ref={searchContainerRef}>
       {/* Search Input Container */}
-      <div className="bg-orange-500 p-1.5 w-full shadow-lg rounded-3xl">
+      <div className={`${currentBackground.backgroundClasses} p-1.5 w-full shadow-lg rounded-3xl`}>
         {/* Top bar with title */}
         <div className="flex items-center px-4 py-2 text-white">
           {isLoading && (
@@ -177,10 +187,20 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
               className="flex-grow text-gray-700 placeholder-gray-400 focus:outline-none bg-transparent text-lg"
               placeholder="What do you want to play?"
             />
-            <button className="ml-4 flex-shrink-0 bg-orange-100 hover:bg-orange-200 text-orange-500 rounded-full w-10 h-10 flex items-center justify-center transition-colors duration-200">
+
+            <button
+              onClick={handleSubmitClick}
+              className={`${currentBackground.primaryButtonClasses} ml-4 mr-2 flex-shrink-0 bg-orange-100 rounded-full w-10 h-10 flex items-center justify-center transition-colors duration-200`}>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
               </svg>
+            </button>
+            <button
+              onClick={handleChangeBackground}
+              title="Change Background"
+              className="flex-shrink-0 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-full w-10 h-10 flex items-center justify-center transition-colors duration-200"
+            >
+              <RotateCw className="h-5 w-5" />
             </button>
           </div>
         </div>

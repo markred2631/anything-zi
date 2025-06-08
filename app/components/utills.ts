@@ -104,3 +104,37 @@ export const randomDelay = (minMs: number, maxMs: number) => {
 export const localStorageKey = (key: string) => {
   return `LITITLESS_${key.toUpperCase()}`
 }
+
+// --- Tailwind background colors with gradients ---
+
+export interface BackgroundGradient {
+  backgroundClasses: string;
+  primaryButtonClasses: string;
+}
+
+const skyBackground: BackgroundGradient = {
+  backgroundClasses: "bg-gradient-to-r from-sky-500 to-indigo-500",
+  primaryButtonClasses: `bg-sky-100 hover:bg-sky-200 text-sky-500`
+};
+
+const purpleBackground: BackgroundGradient = {
+  backgroundClasses: "bg-gradient-to-br from-purple-500 to-pink-500",
+  primaryButtonClasses: `bg-purple-100 hover:bg-purple-200 text-purple-500`
+};
+
+const greenBackground: BackgroundGradient = {
+  backgroundClasses: "bg-gradient-to-b from-emerald-500 to-teal-600",
+  primaryButtonClasses: `bg-teal-100 hover:bg-emerald-200 text-emerald-500`
+};
+
+const sunBackground: BackgroundGradient = {
+  backgroundClasses: "bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500",
+  primaryButtonClasses: `bg-red-100 hover:bg-red-200 text-red-500`
+};
+
+export const allBackgrounds: BackgroundGradient[] = [
+  skyBackground,
+  purpleBackground,
+  greenBackground,
+  sunBackground,
+];

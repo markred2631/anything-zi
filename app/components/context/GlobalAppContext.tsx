@@ -87,3 +87,30 @@ export function useRecentSearches() {
 
   return { recentSearches, setRecentSearches };
 }
+
+export function useBackground() {
+  const LOCAL_STORAGE_KEY = localStorageKey('background');
+
+  const [backgroundIndex, setBackgroundIndex] = useState<number>(() => {
+    // Read from localStorage on first render (lazy initializer)
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (stored) {
+        try {
+          return Number.parseInt(stored);
+        } catch {
+          console.warn('Failed to parse background from localStorage');
+        }
+      }
+    }
+    // Fallback default
+    return 0;
+  });
+
+  // Sync to localStorage on updates
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(backgroundIndex));
+  }, [backgroundIndex]);
+
+  return { backgroundIndex, setBackgroundIndex };
+}
