@@ -2,15 +2,16 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { WandSparkles } from 'lucide-react';
-import { useBackground, useRecentSearches } from '@/app/v2/common/hooks';
+import { useRecentSearches } from '@/app/v2/common/hooks';
 import { allBackgrounds, generateAvatarUrl, getFirstNChars, stringToColor } from '@/app/v2/common/utills';
 import RecentSearchesDropdown from './RecentSearchesDropdown';
 import { SearchBarProps } from '../../common/types';
+import { useTheme } from '../../context/ThemeContext';
 
 
 export default function SearchBar({ onSearch }: SearchBarProps) {
   // State for the current background index
-  const { backgroundIndex, switchBackground } = useBackground();
+  const { backgroundIndex, switchBackground } = useTheme();
 
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');

@@ -1,7 +1,7 @@
-import { useBackground } from "@/app/v2/common/hooks"
 import { MenuGroup, MenuOption } from "../types"
 import { allBackgrounds } from "@/app/v2/common/utills"
 import { OctagonX } from "lucide-react"
+import { useTheme } from "../../context/ThemeContext"
 
 type MenuSectionProps = {
   menuGroup: MenuGroup
@@ -10,7 +10,7 @@ type MenuSectionProps = {
 }
 
 export default function MenuSection({ menuGroup, onOptionClick, onOptionDoubleClick }: MenuSectionProps) {
-  const { backgroundIndex } = useBackground();
+  const { backgroundIndex } = useTheme();
   const currentBackground = allBackgrounds[backgroundIndex];
   
   return (
@@ -36,7 +36,7 @@ export default function MenuSection({ menuGroup, onOptionClick, onOptionDoubleCl
             )}
 
             {option.count && (
-              <span className={`w-5 h-5 text-white text-xs rounded-full flex items-center justify-center ${currentBackground.backgroundClasses}`}>
+              <span className={`w-10 h-5 text-white font-semibold text-xs rounded-full flex items-center justify-center ${currentBackground.backgroundClasses}`}>
                 {option.count}
               </span>
             )}

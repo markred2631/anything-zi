@@ -30,37 +30,3 @@ export function useRecentSearches() {
 
   return { recentSearches, setRecentSearches };
 }
-
-export function useBackground() {
-  const LOCAL_STORAGE_KEY = localStorageKey('background');
-
-  const [backgroundIndex, setBackgroundIndex] = useState<number>(0);
-
-  useEffect(() => {
-    // Read from localStorage on first render (lazy initializer)
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (stored) {
-        try {
-          setBackgroundIndex(Number.parseInt(stored))
-        } catch {
-          console.warn('Failed to parse background from localStorage');
-          setBackgroundIndex(0)
-        }
-      }
-    }
-    // Fallback default
-    setBackgroundIndex(0)
-  }, [])
-
-  const switchBackground = useCallback(() => {
-    setBackgroundIndex((prevIndex) => {
-      const result = (prevIndex + 1) % allBackgrounds.length
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(result));
-      return result
-    })
-    
-  }, [])
-
-  return { backgroundIndex, switchBackground };
-}
