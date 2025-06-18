@@ -1,11 +1,11 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, WandSparkles } from 'lucide-react';
-import { SearchBarProps } from '@/app/components/search/SearchBar.types';
-import { useBackground, useRecentSearches } from '@/app/components/context/GlobalAppContext';
-import { allBackgrounds, generateAvatarUrl, getFirstNChars, stringToColor } from '@/app/components/utills';
+import { WandSparkles } from 'lucide-react';
+import { useBackground, useRecentSearches } from '@/app/v2/common/hooks';
+import { allBackgrounds, generateAvatarUrl, getFirstNChars, stringToColor } from '@/app/v2/common/utills';
 import RecentSearchesDropdown from './RecentSearchesDropdown';
+import { SearchBarProps } from '../../common/types';
 
 
 export default function SearchBar({ onSearch }: SearchBarProps) {

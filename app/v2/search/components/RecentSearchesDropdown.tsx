@@ -1,6 +1,6 @@
-import Placeholder from "@/app/components/Placeholder"
+import Placeholder from "@/app/v2/common/components/Placeholder"
 import { RecentSearch } from "@/app/components/search/SearchBar.types"
-import { getFirstNChars, stringToColor } from "@/app/components/utills"
+import { getFirstNChars, stringToColor } from "@/app/v2/common/utills"
 
 type RecentSearchesDropdownProps = {
     recentSearches: RecentSearch[]

@@ -5,6 +5,7 @@ import { MenuGroup, MenuOption } from "../../menu/types"
 import { fetchResults } from "../../search/fetchers"
 import IslandEntry from "./IslandEntry"
 import { BaseSearchComponentProps } from "../../search/types"
+import { ResultsGroup } from "../../common/types"
 
 interface IslandViewProps extends BaseSearchComponentProps {
     menuGroup: MenuGroup

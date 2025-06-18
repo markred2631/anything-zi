@@ -7,6 +7,7 @@ import { useMenuGroups } from "./v2/menu/hooks";
 import SearchView from "./v2/search/components/SearchView";
 import { MenuGroup, MenuOption } from "./v2/menu/types";
 import DetailView from "./v2/detail/components/DetailView";
+import { ResultItem, ResultsGroup } from "./v2/common/types";
 
 export default function Home() {
   const { menuGroups, toggleOption, setOptionCount, disableAllOtherOptions, setLoading, setErrMsg } = useMenuGroups()

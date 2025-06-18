@@ -1,7 +1,5 @@
 // --- Dates ---
 
-import { SidebarOption } from "./sidebar/Sidebar.types";
-
 /**
  * Returns the day-of-year number for a given date.
  * Jan 1 → 1, Jan 2 → 2, Feb 1 → 32, etc.

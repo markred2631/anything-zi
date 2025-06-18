@@ -1,6 +1,6 @@
-import { useBackground } from "@/app/components/context/GlobalAppContext"
+import { useBackground } from "@/app/v2/common/hooks"
 import { MenuGroup, MenuOption } from "../types"
-import { allBackgrounds } from "@/app/components/utills"
+import { allBackgrounds } from "@/app/v2/common/utills"
 import { OctagonX } from "lucide-react"
 
 type MenuSectionProps = {

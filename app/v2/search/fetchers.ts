@@ -1,5 +1,6 @@
 "use client"
 
+import { ResultsGroup } from "../common/types";
 import { MenuGroup, MenuOption } from "../menu/types";
 
 /**

@@ -1,3 +1,5 @@
+import { ResultItem } from "../../common/types";
+
 interface DetailViewProps {
   selectedResult: ResultItem;
   onClose: () => void;

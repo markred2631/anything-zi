@@ -1,6 +1,7 @@
-import Placeholder from "@/app/components/Placeholder";
-import { getFirstNChars } from "@/app/components/utills";
+import Placeholder from "@/app/v2/common/components/Placeholder";
+import { getFirstNChars } from "@/app/v2/common/utills";
 import { SquareArrowOutUpRight } from "lucide-react";
+import { ResultItem } from "../../common/types";
 
 type IslandEntry = {
     item: ResultItem

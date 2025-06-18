@@ -1,7 +1,7 @@
 "use client"
 
 import { Database } from "lucide-react";
-import { MenuGroup, MenuOption, User } from "./types"
+import { MenuGroup, User } from "./types"
 
 export async function fetchUser(): Promise<User> {
     return {

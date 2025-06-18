@@ -1,4 +1,4 @@
-import Placeholder from "@/app/components/Placeholder";
+import Placeholder from "@/app/v2/common/components/Placeholder";
 import { User } from "../types";
 
 type Props = {
