@@ -1,44 +1,57 @@
-import Image from "next/image";
-import SearchView from "./components/search/SearchView";
-import { SidebarOption } from "./components/sidebar/Sidebar.types";
-import { GlobalAppContextProvider } from "./components/context/GlobalAppContext";
-import { Sidebar } from "./components/sidebar/Sidebar";
-import { fetchSources } from "./components/fetchers";
-import { Footer } from "./components/footer/Footer";
+"use client"
 
-export default async function Home() {
-  const sources: SidebarOption[] = await fetchSources();
+import { useState } from "react";
+import ClassificationHeader from "./v2/classification/components/ClassificationHeader";
+import Menu from "./v2/menu/components/Menu";
+import { useMenuGroups } from "./v2/menu/hooks";
+import SearchView from "./v2/search/components/SearchView";
+import { MenuGroup, MenuOption } from "./v2/menu/types";
+import DetailView from "./v2/detail/components/DetailView";
 
-  // TODO have authentication logic happening here and supply the token to the GlobalAppContextProvider
+export default function Home() {
+  const { menuGroups, toggleOption, setOptionCount, disableAllOtherOptions, setLoading, setErrMsg } = useMenuGroups()
+  const [selectedResult, setSelectedResult] = useState<ResultItem | null>(null);
+
+  const onResultSelect = (selectedResult: ResultItem) => {
+    setSelectedResult(selectedResult);
+  };
+
+  const onNewResults = (menuGroup: MenuGroup, menuOption: MenuOption, resultsGroup: ResultsGroup) => {
+    setOptionCount(menuGroup, menuOption, resultsGroup.results.length)
+  }
+
+  const screenBaseSliceStyles = "p-4"
+  const screenLeftRightSliceStyles = "border-1 border-gray-200 rounded-lg bg-white"
+  const isSplitView = selectedResult!!
+
   return (
-    <GlobalAppContextProvider initialSources={sources}>
-      <div className="flex bg-gray-100">
-      <Sidebar />
+    <div className="px-4 pb-4 h-screen font-sans flex flex-col bg-neutral-50">
+      <ClassificationHeader />
 
-      <div className="flex-1 grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pl-20 pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
-        <header className="fixed top-0 left-0 right-0 text-cente z-50">
-          <div className="h-fit mx-auto max-w-[calc(100%-1rem)] bg-amber-300 rounded-b-3xl">
-            <blockquote className="text-center tracking-wide font-medium text-gray-900 dark:text-white">
-              <p>Demo application with 24/hours license</p>            
-            </blockquote>
+      <main className="mt-4 mx-auto flex flex-row flex-grow w-full overflow-hidden gap-x-4">
+        <div className={`w-64 ${screenBaseSliceStyles} ${screenLeftRightSliceStyles}`}>
+          <Menu
+            menuGroups={menuGroups}
+            onOptionClick={toggleOption}
+            onOptionDoubleClick={disableAllOtherOptions} />
+        </div>
+        <div className="h-full flex justify-center flex-grow gap-x-4 overflow-hidden">
+          <div className={`w-1/2 overflow-y-auto flex ${screenBaseSliceStyles}`}>
+            <SearchView
+              menuGroups={menuGroups}
+              onResultSelect={onResultSelect}
+              selectedResult={selectedResult}
+              onNewResults={onNewResults}
+              onLoadingResults={setLoading}
+              onError={setErrMsg} />
           </div>
-        </header>
-
-        <main className="flex flex-col gap-[32px] row-start-2 items-center w-full">
-          <Image
-                    className="dark:invert w-1/5"
-                    src="/next.svg"
-                    alt="Next.js logo"
-                    width={180}
-                    height={38}
-                    priority
-                  />
-
-          <SearchView />
-        </main>
-        <Footer />
-      </div>
+          {isSplitView && (
+            <div className={`w-1/2 ${screenBaseSliceStyles} ${screenLeftRightSliceStyles}`}>
+              <DetailView selectedResult={selectedResult} onClose={() => { setSelectedResult(null) }} />
+            </div>
+          )}
+        </div>
+      </main>
     </div>
-    </GlobalAppContextProvider>
   );
 }

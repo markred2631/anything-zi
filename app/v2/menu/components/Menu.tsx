@@ -2,13 +2,18 @@
 
 import React from 'react';
 import UserView from './UserView';
-import { MenuGroup } from '../types';
+import { MenuGroup, MenuOption } from '../types';
 import MenuSection from './MenuSection';
-import { useMenuGroups, useUser } from '../hooks';
+import { useUser } from '../hooks';
 
-export default function Menu() {
+type MenuProps = {
+  menuGroups: MenuGroup[]
+  onOptionClick: (menuGroup: MenuGroup, menuOption: MenuOption) => void
+  onOptionDoubleClick: (menuGroup: MenuGroup, menuOption: MenuOption) => void
+}
+
+export default function Menu({menuGroups, onOptionClick, onOptionDoubleClick}: MenuProps) {
   const { user } = useUser()
-  const { menuGroups, toggleOption } = useMenuGroups()
 
   return (
     <div className="flex flex-col">
@@ -22,7 +27,8 @@ export default function Menu() {
         {menuGroups.map((group: MenuGroup) =>
           <MenuSection
             key={group.name}
-            onOptionClick={toggleOption}
+            onOptionClick={onOptionClick}
+            onOptionDoubleClick={onOptionDoubleClick}
             menuGroup={group} />)}
       </div>
     </div>

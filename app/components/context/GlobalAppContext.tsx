@@ -4,7 +4,7 @@ import React, { createContext, useContext, ReactNode, useState, useCallback, use
 import { GlobalAppContextType } from './GlobalAppContext.types';
 import { SidebarOption } from '../sidebar/Sidebar.types';
 import { RecentSearch } from '../search/SearchBar.types';
-import { localStorageKey } from '../utills';
+import { allBackgrounds, localStorageKey } from '../utills';
 
 const GlobalAppContext = createContext<GlobalAppContextType | undefined>(undefined);
 
@@ -30,7 +30,7 @@ export const GlobalAppContextProvider: React.FC<GlobalAppContextProviderProps> =
   }, []);
 
   const value = { sources, setActiveSource };
-  
+
   return (
     <GlobalAppContext.Provider value={value}>
       {children}
@@ -91,26 +91,33 @@ export function useRecentSearches() {
 export function useBackground() {
   const LOCAL_STORAGE_KEY = localStorageKey('background');
 
-  const [backgroundIndex, setBackgroundIndex] = useState<number>(() => {
+  const [backgroundIndex, setBackgroundIndex] = useState<number>(0);
+
+  useEffect(() => {
     // Read from localStorage on first render (lazy initializer)
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (stored) {
         try {
-          return Number.parseInt(stored);
+          setBackgroundIndex(Number.parseInt(stored))
         } catch {
           console.warn('Failed to parse background from localStorage');
+          setBackgroundIndex(0)
         }
       }
     }
     // Fallback default
-    return 0;
-  });
+    setBackgroundIndex(0)
+  }, [])
 
-  // Sync to localStorage on updates
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(backgroundIndex));
-  }, [backgroundIndex]);
+  const switchBackground = useCallback(() => {
+    setBackgroundIndex((prevIndex) => {
+      const result = (prevIndex + 1) % allBackgrounds.length
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(result));
+      return result
+    })
+    
+  }, [])
 
-  return { backgroundIndex, setBackgroundIndex };
+  return { backgroundIndex, switchBackground };
 }

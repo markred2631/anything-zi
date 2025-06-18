@@ -14,5 +14,7 @@ export interface MenuOption {
     icon: LucideIcon;
     name: string;
     active: boolean;
-    badge?: number;
+    loading: boolean;
+    errorMsg?: string;
+    count?: number;
 }

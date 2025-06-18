@@ -15,18 +15,18 @@ export async function fetchMenuGroups(): Promise<MenuGroup[]> {
         {
             name: "Banking",
             options: [
-                { name: 'Dashboard', active: false },
-                { name: 'History', active: false },
-                { name: 'Analysis', active: false },
-                { name: 'Finances', active: true },
+                { loading: false, name: 'Dashboard', active: false },
+                { loading: false, name: 'History', active: true },
+                { loading: false, name: 'Analysis', active: false },
+                { loading: false, name: 'Finances', active: true },
             ]
         },
         {
             name: "Finance",
             options: [
-                { name: 'Messages', badge: 9, active: false },
-                { name: 'Documents', active: false },
-                { name: 'Products', active: true },
+                { loading: false, name: 'Messages', active: true },
+                { loading: false, name: 'Documents', active: false },
+                { loading: false, name: 'Products', active: true },
             ]
         }
     ];
